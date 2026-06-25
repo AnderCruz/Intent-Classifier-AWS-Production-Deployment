@@ -30,7 +30,16 @@ EC2 Instance (Ubuntu 20.04)
   └── Gunicorn (port 6000) — WSGI server
         └── Intent Classifier Model (Python/Flask)
 ```
+## Screenshots
 
+### ALB Active
+![ALB Active](screenshots/load-balance.png)
+
+### Target Group Healthy
+![Target Group Healthy](screenshots/target-group-healthy.png)
+
+### Auto Scaling Group
+![ASG](screenshots/ASG.png)
 ---
 
 ## Tech Stack
