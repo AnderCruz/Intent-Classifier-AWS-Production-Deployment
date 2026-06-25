@@ -36,7 +36,7 @@ EC2 Instance (Ubuntu 20.04)
 ![ALB Active](Screenshot/ALB.png)
 
 ### Target Group Healthy
-![Target Group Healthy](Screenshot/target-group-healthy.png)
+![Target Group Healthy](Screenshot/target-group.png)
 
 ### Auto Scaling Group
 ![ASG](Screenshot/ASG.png)
