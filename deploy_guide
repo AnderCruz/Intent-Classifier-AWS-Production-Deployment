@@ -1,0 +1,80 @@
+# Deployment Guide
+
+## Prerequisites
+
+- AWS CLI installed and configured (`aws configure`)
+- An existing EC2 Key Pair in us-east-1
+- Bash shell (Linux/Mac/WSL)
+
+---
+
+## Step-by-Step
+
+### 1. Clone this repository
+```bash
+git clone https://github.com/YOUR_USERNAME/intent-classifier-aws-deploy
+cd intent-classifier-aws-deploy
+```
+
+### 2. Edit configuration
+Open `infrastructure/setup.sh` and update:
+```bash
+AWS_REGION="us-east-1"
+KEY_NAME="your-key-pair-name"
+```
+
+### 3. Run the setup
+```bash
+bash infrastructure/setup.sh
+```
+
+### 4. Wait for initialization
+The EC2 instance takes 5-10 minutes to:
+- Install dependencies
+- Clone the repository
+- Train the model
+- Start Gunicorn and Nginx
+
+### 5. Verify health
+```bash
+aws elbv2 describe-target-health \
+  --target-group-arn <TG_ARN> \
+  --region us-east-1 \
+  --query "TargetHealthDescriptions[0].TargetHealth"
+```
+Expected: `"State": "healthy"`
+
+### 6. Test the API
+```bash
+curl -X POST http://<ALB-DNS> \
+  -H "Content-Type: application/json" \
+  -d '{"text": "book a flight to New York"}'
+```
+
+---
+
+## Teardown
+
+To avoid AWS charges, delete all resources:
+
+```bash
+# Delete ASG
+aws autoscaling delete-auto-scaling-group --auto-scaling-group-name mlops-autoscaling --force-delete --region us-east-1
+
+# Delete ALB
+aws elbv2 delete-load-balancer --load-balancer-arn <ALB_ARN> --region us-east-1
+
+# Delete Target Group
+aws elbv2 delete-target-group --target-group-arn <TG_ARN> --region us-east-1
+
+# Delete Launch Template
+aws ec2 delete-launch-template --launch-template-name intent-classifier-lt --region us-east-1
+
+# Delete Security Group, Subnets, IGW, VPC
+aws ec2 delete-security-group --group-id <SG_ID> --region us-east-1
+aws ec2 delete-subnet --subnet-id <SUBNET_ID1> --region us-east-1
+aws ec2 delete-subnet --subnet-id <SUBNET_ID2> --region us-east-1
+aws ec2 detach-internet-gateway --internet-gateway-id <IGW_ID> --vpc-id <VPC_ID> --region us-east-1
+aws ec2 delete-internet-gateway --internet-gateway-id <IGW_ID> --region us-east-1
+aws ec2 delete-vpc --vpc-id <VPC_ID> --region us-east-1
+```
