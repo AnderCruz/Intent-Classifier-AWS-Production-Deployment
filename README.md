@@ -33,13 +33,13 @@ EC2 Instance (Ubuntu 20.04)
 ## Screenshots
 
 ### ALB Active
-![ALB Active](screenshots/ALB.png)
+![ALB Active](Screenshot/ALB.png)
 
 ### Target Group Healthy
-![Target Group Healthy](screenshots/target-group-healthy.png)
+![Target Group Healthy](Screenshot/target-group-healthy.png)
 
 ### Auto Scaling Group
-![ASG](screenshots/ASG.png)
+![ASG](Screenshot/ASG.png)
 ---
 
 ## Tech Stack
