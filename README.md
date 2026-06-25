@@ -33,7 +33,7 @@ EC2 Instance (Ubuntu 20.04)
 ## Screenshots
 
 ### ALB Active
-![ALB Active](screenshots/load-balance.png)
+![ALB Active](screenshots/ALB.png)
 
 ### Target Group Healthy
 ![Target Group Healthy](screenshots/target-group-healthy.png)
